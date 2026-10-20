@@ -16,22 +16,24 @@ docker run -d --name <nombre contenedor> --mount type=bind,source=<ruta carpeta 
 
 ### Crear un contenedor con la imagen nginx:alpine, mapear todos por puertos, para la ruta carpeta host colocar el directorio en donde se encuentra la carpeta html en tu computador y para la ruta carpeta contenedor: /usr/share/nginx/html (esta ruta se obtiene al revisar la documentación de la imagen)
 ![Volúmenes](volumen-host.PNG)
-# COMPLETAR CON EL COMANDO
+docker run -d --name srvnginx -P -v "C:/Users/quint/E.P.N/6. Sexto Semestre/CES/Actividades/nginx/html:/usr/share/nginx/html" nginx:alpine
 
 ### ¿Qué sucede al ingresar al servidor de nginx?
-# COMPLETAR CON LA RESPUESTA A LA PREGUNTA
+Al ingresar al servidor Nginx se muestra el error 403 Forbidden, debido a que la carpeta html del host se encuentra vacía. Al utilizar un bind mount, el directorio del host se monta sobre /usr/share/nginx/html, ocultando los archivos predeterminados del contenedor, incluido index.html. Por esta razón, Nginx no encuentra una página principal para mostrar.
 
 ### ¿Qué pasa con el archivo index.html del contenedor?
-# COMPLETAR CON LA RESPUESTA A LA PREGUNTA
+El archivo index.html predeterminado de Nginx queda oculto al realizar el bind mount, ya que el contenido de la carpeta html del host se monta sobre el directorio /usr/share/nginx/html del contenedor. El archivo original no se elimina, pero no puede visualizarse mientras el montaje esté activo.
 
 ### Ir a https://html5up.net/ y descargar un template gratuito, descomprirlo dentro de tu computador en la carpeta html
 ### ¿Qué sucede al ingresar al servidor de nginx?
-# COMPLETAR CON LA RESPUESTA A LA PREGUNTA
+Al ingresar nuevamente al servidor Nginx, se visualiza correctamente la plantilla HTML descargada, reemplazando el error 403 Forbidden que aparecía anteriormente. Esto sucede porque, mediante el Bind Mount, el contenedor accede directamente a los archivos almacenados en la carpeta html del host, permitiendo mostrar la página web sin necesidad de reiniciar el contenedor.
 
 ### Eliminar el contenedor
-# COMPLETAR CON EL COMANDO
+docker rm -f srvnginx
 
 ### ¿Qué sucede al crear nuevamente un contenedor montado al directorio definidos anteriormente?
-# COMPLETAR CON LA RESPUESTA A LA PREGUNTA
+Al crear nuevamente el contenedor utilizando el mismo Bind Mount, la página web continúa funcionando y muestra la plantilla HTML previamente descargada, ya que los archivos permanecen almacenados en el directorio del host.
+
+Además, Docker asignó automáticamente un nuevo puerto, cambiando de 32768 a 32769, debido al uso del parámetro -P. Esto demuestra que los datos almacenados mediante un Bind Mount permanecen disponibles incluso después de eliminar y recrear el contenedor.
 
 
